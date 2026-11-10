@@ -44,11 +44,26 @@ Supabase dashboard settings this relies on:
 1. **Authentication → Sign In / Providers → Google** enabled with your Google
    OAuth client ID and secret. In Google Cloud, the OAuth client's authorized
    redirect URI is `https://ymomfylsgfkipdnohzgp.supabase.co/auth/v1/callback`.
-2. **Authentication → URL Configuration**: Site URL
-   `https://blackjack57.netlify.app`, and under Redirect URLs add
+2. **Authentication → URL Configuration → Redirect URLs**: add
    `https://blackjack57.netlify.app/**` (plus `http://localhost:3000/**` for
-   local testing). Without these, Supabase sends users back to the Site URL
-   instead of the page they signed in from.
+   local testing). Without it, Supabase sends users back to the Site URL
+   instead of the blackjack page. This project is shared with Basketwise, so
+   leave the **Site URL** set to Basketwise; adding a redirect URL is enough.
+
+## Player profiles
+
+Signed-in players can create a profile: a username (unique, 3–20 lowercase
+letters, numbers or underscores), a display name, a short bio, and the choice of
+showing their Google photo. The first time someone signs in, the profile form
+opens on its own. After that, clicking their avatar in the header opens it.
+
+Profiles live in the `public.blackjack_profiles` table. This Supabase project
+is shared with Basketwise, which has its own `public.profiles` table, so the
+blackjack table is kept separate and doesn't touch it. Row-level security lets
+each player read, create, edit and delete only their own row; logged-out
+visitors can't read the table at all. The SQL is in
+`supabase/migrations/20261110035600_create_blackjack_profiles.sql` (already
+applied).
 
 ## Project layout
 
@@ -59,8 +74,9 @@ public/            ← everything Netlify serves
   js/api.js        Deck of Cards API wrapper (Shoe class)
   js/rules.js      pure blackjack rules (hand values, payouts)
   js/game.js       game state, UI and controls
-  js/auth.js       Google sign-in via Supabase, greeting + avatar
+  js/auth.js       Google sign-in via Supabase, greeting, profile form
 tests/rules.test.js
+supabase/migrations/   SQL for the blackjack_profiles table
 netlify.toml       publish = "public", no build command
 ```
 

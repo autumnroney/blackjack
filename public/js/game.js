@@ -398,6 +398,8 @@ $("reset").addEventListener("click", resetBankroll);
 
 document.addEventListener("keydown", (e) => {
   if (e.target instanceof HTMLButtonElement && (e.key === " " || e.key === "Enter")) return;
+  // Don't steal keys while typing in a form or while a dialog is open.
+  if (e.target.closest?.("input, textarea, select, dialog") || document.querySelector("dialog[open]")) return;
   const key = e.key.toLowerCase();
   const map = { h: "hit", s: "stand", d: "double", p: "split" };
   if (state.phase === "player" && map[key]) $(map[key]).click();

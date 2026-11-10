@@ -24,15 +24,20 @@
           <span id="google-signin-label">Sign in with Google</span>
         </button>
         <div class="user" id="auth-signed-in" hidden>
-          <img class="avatar" id="avatar" alt="" referrerpolicy="no-referrer" hidden />
-          <span class="avatar avatar-fallback" id="avatar-fallback" aria-hidden="true"></span>
-          <span class="user-name" id="user-name"></span>
+          <button class="profile-btn" id="profile-open" type="button">
+            <img class="avatar" id="avatar" alt="" referrerpolicy="no-referrer" hidden />
+            <span class="avatar avatar-fallback" id="avatar-fallback" aria-hidden="true"></span>
+            <span class="user-name" id="user-name"></span>
+          </button>
           <button class="link-btn" id="signout" type="button">Sign out</button>
         </div>
       </div>
     </header>
 
-    <p class="greeting" id="greeting" hidden></p>
+    <div class="greeting-bar" id="greeting-bar" hidden>
+      <p class="greeting" id="greeting"></p>
+      <button class="btn small primary" id="create-profile-cta" type="button" hidden>Create your profile</button>
+    </div>
     <p class="auth-error" id="auth-error" role="alert" hidden></p>
 
     <section class="area dealer" aria-label="Dealer">
@@ -78,5 +83,54 @@
       <a href="https://deckofcardsapi.com/" target="_blank" rel="noopener">Deck of Cards API</a>
     </footer>
   </main>
+
+  <dialog class="profile-dialog" id="profile-dialog" aria-labelledby="profile-title">
+    <form id="profile-form" novalidate>
+      <h2 class="dialog-title" id="profile-title">Your profile</h2>
+
+      <div class="pf-preview">
+        <img class="avatar lg" id="pf-avatar" alt="" referrerpolicy="no-referrer" hidden />
+        <span class="avatar lg avatar-fallback" id="pf-avatar-fallback" aria-hidden="true"></span>
+        <div>
+          <div class="pf-preview-name" id="pf-preview-name"></div>
+          <div class="pf-muted" id="pf-preview-username"></div>
+          <div class="pf-muted" id="pf-since"></div>
+        </div>
+      </div>
+
+      <label class="field">
+        <span>Username</span>
+        <span class="prefixed"><span aria-hidden="true">@</span>
+          <input id="pf-username" name="username" maxlength="20" autocomplete="off" spellcheck="false" required />
+        </span>
+        <small class="pf-muted">3–20 characters: lowercase letters, numbers, underscores.</small>
+      </label>
+
+      <label class="field">
+        <span>Display name</span>
+        <input id="pf-display-name" name="display_name" maxlength="40" required />
+      </label>
+
+      <label class="field">
+        <span>Bio <small class="pf-muted" id="pf-bio-count"></small></span>
+        <textarea id="pf-bio" name="bio" maxlength="160" rows="3" placeholder="High roller? Card counter? Just here for fun?"></textarea>
+      </label>
+
+      <label class="check">
+        <input type="checkbox" id="pf-use-google" />
+        <span>Use my Google profile picture</span>
+      </label>
+
+      <p class="pf-muted">Signed in as <span id="pf-email"></span>. Only you can see your profile.</p>
+      <p class="auth-error" id="profile-error" role="alert" hidden></p>
+
+      <div class="dialog-actions">
+        <button class="link-btn danger" id="pf-delete" type="button" hidden>Delete profile</button>
+        <span class="spacer"></span>
+        <button class="btn ghost" id="pf-cancel" type="button">Cancel</button>
+        <button class="btn primary" id="pf-save" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>
