@@ -27,6 +27,29 @@ Keyboard: **H** hit · **S** stand · **D** double · **P** split · **Enter** d
 The API's piles don't work with multi-deck shoes, so the game tracks hands
 itself.
 
+## Google sign-in (Supabase)
+
+Players can sign in with Google through Supabase Auth. Once signed in, the
+header shows their Google profile picture and name, with a greeting. Signing in
+is optional: guests can still play.
+
+- `public/js/auth.js` holds the Supabase project URL and **publishable** key.
+  That key is meant to be public, so it's fine in browser code. Never put the
+  `service_role`/secret key in this repo.
+- supabase-js is loaded from jsDelivr (pinned version). If it fails to load,
+  only sign-in is disabled; the game keeps working.
+
+Supabase dashboard settings this relies on:
+
+1. **Authentication → Sign In / Providers → Google** enabled with your Google
+   OAuth client ID and secret. In Google Cloud, the OAuth client's authorized
+   redirect URI is `https://ymomfylsgfkipdnohzgp.supabase.co/auth/v1/callback`.
+2. **Authentication → URL Configuration**: Site URL
+   `https://blackjack57.netlify.app`, and under Redirect URLs add
+   `https://blackjack57.netlify.app/**` (plus `http://localhost:3000/**` for
+   local testing). Without these, Supabase sends users back to the Site URL
+   instead of the page they signed in from.
+
 ## Project layout
 
 ```
@@ -36,6 +59,7 @@ public/            ← everything Netlify serves
   js/api.js        Deck of Cards API wrapper (Shoe class)
   js/rules.js      pure blackjack rules (hand values, payouts)
   js/game.js       game state, UI and controls
+  js/auth.js       Google sign-in via Supabase, greeting + avatar
 tests/rules.test.js
 netlify.toml       publish = "public", no build command
 ```
